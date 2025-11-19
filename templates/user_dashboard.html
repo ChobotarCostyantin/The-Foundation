@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Дашборд Дослідника{% endblock %}
+
+{% block content %}
+<div class="jumbotron text-center bg-light p-5 rounded">
+    <h1 class="display-4">Ласкаво просимо, Досліднику {{ username }}!</h1>
+    <p class="lead">Рівень допуску: **{{ role.upper() }}**.</p>
+    <hr class="my-4">
+    <p>Це ваш персональний дашборд. Тут ви можете переглядати об'єкти.</p>
+    <a class="btn btn-dark btn-lg" href="#" role="button">Переглянути Об'єкти</a>
+</div>
+{% endblock %}

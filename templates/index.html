@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Фонд - Головна{% endblock %}
+
+{% block content %}
+<div class="hero text-center py-5" style="background: #f8f8f8; border-bottom: 2px solid #000;">
+    <h1 style="font-size: 3rem; margin-bottom: 1rem; color: #000;">Фонд</h1>
+    <p style="font-size: 1.2rem; margin-bottom: 2rem; color: #333;">Захистити. Утримати. Зберегти.</p>
+    {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('login') }}" class="btn btn-dark">Увійти до системи</a>
+    {% endif %}
+</div>
+
+<section id="about" class="py-5">
+    <h2 class="text-center mb-4">Про нас</h2>
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="p-3 bg-dark text-white text-center">
+                <h3>Захистити</h3>
+                <p>Ми забезпечуємо високий рівень безпеки для утримання аномальних об'єктів.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="p-3 bg-dark text-white text-center">
+                <h3>Утримати</h3>
+                <p>Наші установки призначені для безпечного розміщення об'єктів різних рівнів загрози.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="p-3 bg-dark text-white text-center">
+                <h3>Зберегти</h3>
+                <p>Ми захищаємо людство від загроз, які вони не можуть зрозуміти.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
