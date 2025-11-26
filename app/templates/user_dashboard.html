@@ -8,6 +8,9 @@
     <p class="lead">Рівень допуску: **{{ role.upper() }}**.</p>
     <hr class="my-4">
     <p>Це ваш персональний дашборд. Тут ви можете переглядати об'єкти.</p>
-    <a class="btn btn-dark btn-lg" href="#" role="button">Переглянути Об'єкти</a>
+    <div class="d-grid gap-2 d-md-block mt-4">
+        <a class="btn btn-outline-dark"
+            href="{{ url_for('inventory.objects_list') }}">Реєстр Об'єктів</a>
+    </div>
 </div>
 {% endblock %}

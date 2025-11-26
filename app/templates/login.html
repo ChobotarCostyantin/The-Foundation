@@ -1,28 +1,28 @@
 {% extends "base.html" %}
 
-{% block title %}Реєстрація{% endblock %}
+{% block title %}Вхід{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card">
             <div class="card-header bg-dark text-white">
-                <h3 class="mb-0">Реєстрація Дослідника</h3>
+                <h3 class="mb-0">Вхід до системи Фонду</h3>
             </div>
             <div class="card-body">
-                <form method="POST" action="{{ url_for('register') }}">
+                <form method="POST" action="{{ url_for('auth.login') }}">
                     <div class="mb-3">
-                        <label for="username" class="form-label">Ім'я користувача (Personnel ID)</label>
+                        <label for="username" class="form-label">Ім'я користувача</label>
                         <input type="text" class="form-control" id="username" name="username" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Пароль</label>
                         <input type="password" class="form-control" id="password" name="password" required>
                     </div>
-                    <button type="submit" class="btn btn-dark w-100">Зареєструватись як Дослідник</button>
+                    <button type="submit" class="btn btn-dark w-100">Увійти</button>
                 </form>
                 <hr>
-                <p class="text-center">Вже маєте акаунт? <a href="{{ url_for('login') }}">Увійдіть</a></p>
+                <p class="text-center">Не маєте акаунту? <a href="{{ url_for('auth.register') }}">Зареєструйтесь</a></p>
             </div>
         </div>
     </div>

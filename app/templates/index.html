@@ -7,7 +7,7 @@
     <h1 style="font-size: 3rem; margin-bottom: 1rem; color: #000;">Фонд</h1>
     <p style="font-size: 1.2rem; margin-bottom: 2rem; color: #333;">Захистити. Утримати. Зберегти.</p>
     {% if not current_user.is_authenticated %}
-        <a href="{{ url_for('login') }}" class="btn btn-dark">Увійти до системи</a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-dark">Увійти до системи</a>
     {% endif %}
 </div>
 

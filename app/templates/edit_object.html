@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Редагування Об'єкта{% endblock %}
+
+{% block content %}
+<div class="col-md-8 offset-md-2">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Редагування: {{ obj.object_number }}</h3>
+        <a href="{{ url_for('inventory.objects_list') }}"
+            class="btn btn-secondary">Скасувати</a>
+    </div>
+
+    <form method="POST"
+        action="{{ url_for('inventory.edit_object', object_id=obj._id) }}">
+
+        <div class="mb-3">
+            <label class="form-label">Номер Об'єкта (SCP-XXX)</label>
+            <input type="text" class="form-control" name="object_number"
+                value="{{ obj.object_number }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Назва</label>
+            <input type="text" class="form-control" name="object_name"
+                value="{{ obj.object_name }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Клас Об'єкта</label>
+            <select class="form-select" name="object_class">
+                <option value="Explained" {% if obj.object_class == 'Explained'
+                    %}selected{% endif %}>Explained (Поясненний)</option>
+                <option value="Neutralized" {% if obj.object_class ==
+                    'Neutralized' %}selected{% endif %}>Neutralized
+                    (Нейтралізований)</option>
+                <option value="Safe" {% if obj.object_class == 'Safe'
+                    %}selected{% endif %}>Safe (Безпечний)</option>
+                <option value="Euclid" {% if obj.object_class == 'Euclid'
+                    %}selected{% endif %}>Euclid (Евклід)</option>
+                <option value="Keter" {% if obj.object_class == 'Keter'
+                    %}selected{% endif %}>Keter (Кетер)</option>
+                <option value="Thaumiel" {% if obj.object_class == 'Thaumiel'
+                    %}selected{% endif %}>Thaumiel</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Опис</label>
+            <textarea class="form-control" name="description"
+                rows="3">{{ obj.description }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Умови утримання</label>
+            <textarea class="form-control"
+                name="special_contaiment_procedures">{{ obj.special_contaiment_procedures }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Дата виявлення</label>
+            <input type="date" class="form-control" name="discovery_date"
+                value="{{ obj.discovery_date }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Призначити Камеру Утримання</label>
+            <select class="form-select" name="chamber_id">
+                <option value>-- Без камери (Тимчасова ізоляція) --</option>
+                {% for chamber in chambers %}
+                <option value="{{ chamber._id }}" {% if obj.chamber_id ==
+                    chamber._id %}selected{% endif %}>
+                    {{ chamber.location }} - {{ chamber.chamber_type }}
+                    (Місць: {{ chamber.current_occupancy }}/{{ chamber.capacity
+                    }})
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Зберегти Зміни</button>
+    </form>
+</div>
+{% endblock %}

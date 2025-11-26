@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Реєстр Об'єктів{% endblock %}
+{% block content %}
+<h2>Реєстр Аномальних Об'єктів</h2>
+
+{% if current_user.is_admin() %}
+<a href="{{ url_for('inventory.create_object') }}"
+    class="btn btn-danger mb-3">Зареєструвати Об'єкт</a>
+{% endif %}
+
+<div class="row">
+    {% for obj in objects %}
+    <div class="col-md-4 mb-4">
+        <div
+            class="card h-100 border-{{ 'danger' if obj.object_class == 'Keter' else 'warning' if obj.object_class == 'Euclid' else 'success' }}">
+            <div class="card-header">
+                <strong>{{ obj.object_number }}</strong>: {{ obj.object_name }}
+                ({{ obj.object_class }})
+
+                <a
+                    href="{{ url_for('inventory.edit_object', object_id=obj._id) }}"
+                    class="btn btn-primary btn-sm me-1 float-end">
+                    Редагувати
+                </a>
+
+                {% if current_user.is_admin() %}
+                <a
+                    href="{{ url_for('inventory.delete_object', object_id=obj._id) }}"
+                    class="btn btn-danger btn-sm float-end"
+                    onclick="return confirm('Ви впевнені?');">
+                    Видалити
+                </a>
+                {% endif %}
+
+            </div>
+            <div class="card-body">
+                <p class="card-text"><strong>Умови утримання:</strong> {{
+                    obj.special_contaiment_procedures }}</p>
+                <p class="card-text"><strong>Опис:</strong> {{ obj.description
+                    }}</p>
+                <hr>
+                <p class="card-text">
+                    <strong>Камера:</strong>
+                    {% if obj.chamber_info %}
+                    {{ obj.chamber_info.location }} ({{
+                    obj.chamber_info.chamber_type }})
+                    {% else %}
+                    <span class="text-muted">Не призначено</span>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="card-footer text-muted">
+                Статус: {{ obj.status }}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

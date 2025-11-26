@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Нова Камера{% endblock %}
+
+{% block content %}
+<div class="col-md-8 offset-md-2">
+    <h3>Створення Камери Утримання</h3>
+    <form method="POST" action="{{ url_for('inventory.create_chamber') }}">
+        
+        <div class="mb-3">
+            <label class="form-label">Місцезнаходження / Локація (Location)</label>
+            <input type="text" class="form-control" name="location" required placeholder="Наприклад: Зона-19, Сектор-Б">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Тип Камери</label>
+            <select class="form-select" name="chamber_type">
+                <option value="Standard">Стандартна (Standard)</option>
+                <option value="Humanoid">Гуманоїдна (Humanoid)</option>
+                <option value="Bio-Hazard">Біологічна загроза (Bio-Hazard)</option>
+                <option value="Reinforced">Посилена (Reinforced)</option>
+                <option value="Aquatic">Водна (Aquatic)</option>
+                <option value="Cryogenic">Кріогенна (Cryogenic)</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Розміри (Size Dimensions)</label>
+            <input type="text" class="form-control" name="size_dimensions" placeholder="Наприклад: 5x5x3m">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Рівень безпеки (Security Level)</label>
+            <select class="form-select" name="security_level">
+                <option value="1">Рівень 1 (Мінімальний)</option>
+                <option value="2">Рівень 2 (Низький)</option>
+                <option value="3">Рівень 3 (Середній)</option>
+                <option value="4">Рівень 4 (Високий)</option>
+                <option value="5">Рівень 5 (Критичний)</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Матеріали конструкції</label>
+            <input type="text" class="form-control" name="construction_materials" placeholder="Наприклад: Залізобетон, Титан">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Системи контролю середовища</label>
+            <textarea class="form-control" name="environmental_controls" rows="2" placeholder="Наприклад: Герметизація, Фільтрація повітря"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Обладнання моніторингу</label>
+            <textarea class="form-control" name="monitoring_equipment" rows="2" placeholder="Наприклад: Камери відеоспостереження, Датчики руху"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Місткість (кількість об'єктів)</label>
+            <input type="number" class="form-control" name="capacity" value="1" min="1" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Створити Камеру</button>
+    </form>
+</div>
+{% endblock %}

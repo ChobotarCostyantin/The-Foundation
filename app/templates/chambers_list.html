@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Реєстр Камер{% endblock %}
+
+{% block content %}
+<h2>Реєстр Камер Утримання</h2>
+<a href="{{ url_for('inventory.create_chamber') }}"
+    class="btn btn-primary mb-3">Додати Нову Камеру</a>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Локація</th>
+                <th>Тип</th>
+                <th>Рівень Безпеки</th>
+                <th>Розміри</th>
+                <th style="width: 20%;">Заповненість</th>
+                <th>Статус</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for chamber in chambers %}
+            <tr>
+                <td><strong>{{ chamber.location }}</strong></td>
+                <td>{{ chamber.chamber_type }}</td>
+                <td>
+                    <span
+                        class="badge {% if chamber.security_level|int >= 4 %}bg-danger{% elif chamber.security_level|int == 3 %}bg-warning text-dark{% else %}bg-secondary{% endif %}">
+                        Рівень {{ chamber.security_level }}
+                    </span>
+                </td>
+                <td>{{ chamber.size_dimensions }}</td>
+                <td>
+                    <div class="d-flex justify-content-between mb-1">
+                        <span>{{ chamber.current_occupancy }} / {{
+                            chamber.capacity }}</span>
+                    </div>
+                    <div class="progress" style="height: 10px;">
+                        <div
+                            class="progress-bar {% if (chamber.current_occupancy / chamber.capacity) >= 0.9 %}bg-danger{% elif (chamber.current_occupancy / chamber.capacity) >= 0.5 %}bg-warning{% else %}bg-success{% endif %}"
+                            role="progressbar"
+                            style="width: {{ (chamber.current_occupancy / chamber.capacity * 100) if chamber.capacity > 0 else 0 }}%;">
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span
+                        class="badge {% if chamber.status == 'Active' %}bg-success{% elif chamber.status == 'Compromised' %}bg-danger{% else %}bg-secondary{% endif %}">
+                        {{ chamber.status }}
+                    </span>
+                </td>
+                <td>
+                    <a
+                        href="{{ url_for('inventory.edit_chamber', chamber_id=chamber._id) }}"
+                        class="btn btn-primary btn-sm mb-1">
+                        Редагувати
+                    </a>
+
+                    <a
+                        href="{{ url_for('inventory.delete_chamber', chamber_id=chamber._id) }}"
+                        class="btn btn-danger btn-sm mb-1"
+                        onclick="return confirm('Ви впевнені? Всі об\'єкти в цій камері отримають статус Awaiting Containment.');">
+                        Видалити
+                    </a>
+
+                    <a
+                        href="{{ url_for('inventory.view_chamber', chamber_id=chamber._id) }}"
+                        class="btn btn-sm btn-info mb-1"
+                        title="Деталі">
+                        Інфо
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

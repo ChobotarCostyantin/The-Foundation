@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Новий Об'єкт{% endblock %}
+{% block content %}
+<div class="col-md-8 offset-md-2">
+    <h3>Реєстрація Аномального Об'єкта</h3>
+    <form method="POST">
+        <div class="mb-3">
+            <label>Номер Об'єкта (SCP-XXX)</label>
+            <input type="text" class="form-control" name="object_number"
+                required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Назва</label>
+            <input type="text" class="form-control" name="object_name" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Клас Об'єкта</label>
+            <select class="form-select" name="object_class">
+                <option value="Explained">Explained (Поясненний)</option>
+                <option value="Neutralized">Neutralized
+                    (Нейтралізований)</option>
+                <option value="Safe">Safe (Безпечний)</option>
+                <option value="Euclid">Euclid (Евклід)</option>
+                <option value="Keter">Keter (Кетер)</option>
+                <option value="Thaumiel">Thaumiel (Тауміель)</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Опис</label>
+            <textarea class="form-control" name="description"
+                rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label>Умови Утримання</label>
+            <textarea class="form-control"
+                name="special_contaiment_procedures"></textarea>
+        </div>
+        <div class="mb-3">
+            <label>Дата Виявлення</label>
+            <input type="date" class="form-control" name="discovery_date">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Призначити Камеру Утримання</label>
+            <select class="form-select" name="chamber_id">
+                <option value>-- Без камери (Тимчасова ізоляція) --</option>
+                {% for chamber in chambers %}
+                <option value="{{ chamber._id }}">
+                    {{ chamber.site_name }} - {{ chamber.chamber_type }}
+                    (Вільних місць: {{ chamber.capacity -
+                    chamber.current_occupancy }})
+                </option>
+                {% endfor %}
+            </select>
+            <div class="form-text">У списку відображаються лише камери з
+                вільними місцями.</div>
+        </div>
+
+        <button type="submit" class="btn btn-danger">Зареєструвати</button>
+    </form>
+</div>
+{% endblock %}

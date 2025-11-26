@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Редагування Камери{% endblock %}
+
+{% block content %}
+<div class="col-md-8 offset-md-2">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Редагування Камери: {{ chamber.location }}</h3>
+        <a href="{{ url_for('inventory.chambers_list') }}" class="btn btn-secondary">Скасувати</a>
+    </div>
+
+    <form method="POST" action="{{ url_for('inventory.edit_chamber', chamber_id=chamber._id) }}">
+        
+        <div class="mb-3">
+            <label class="form-label">Місцезнаходження / Локація</label>
+            <input type="text" class="form-control" name="location" value="{{ chamber.location }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Тип Камери</label>
+            <select class="form-select" name="chamber_type">
+                <option value="Standard" {% if chamber.chamber_type == 'Standard' %}selected{% endif %}>Стандартна (Standard)</option>
+                <option value="Humanoid" {% if chamber.chamber_type == 'Humanoid' %}selected{% endif %}>Гуманоїдна (Humanoid)</option>
+                <option value="Bio-Hazard" {% if chamber.chamber_type == 'Bio-Hazard' %}selected{% endif %}>Біологічна загроза (Bio-Hazard)</option>
+                <option value="Reinforced" {% if chamber.chamber_type == 'Reinforced' %}selected{% endif %}>Посилена (Reinforced)</option>
+                <option value="Aquatic" {% if chamber.chamber_type == 'Aquatic' %}selected{% endif %}>Водна (Aquatic)</option>
+                <option value="Cryogenic" {% if chamber.chamber_type == 'Cryogenic' %}selected{% endif %}>Кріогенна (Cryogenic)</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Статус</label>
+            <select class="form-select" name="status">
+                <option value="Active" {% if chamber.status == 'Active' %}selected{% endif %}>Active (Активна)</option>
+                <option value="Under Maintenance" {% if chamber.status == 'Under Maintenance' %}selected{% endif %}>Under Maintenance (Обслуговування)</option>
+                <option value="Compromised" {% if chamber.status == 'Compromised' %}selected{% endif %}>Compromised (Пошкоджена)</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Розміри</label>
+            <input type="text" class="form-control" name="size_dimensions" value="{{ chamber.size_dimensions }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Рівень безпеки</label>
+            <select class="form-select" name="security_level">
+                {% for i in range(1, 6) %}
+                <option value="{{ i }}" {% if chamber.security_level|string == i|string %}selected{% endif %}>Рівень {{ i }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Матеріали конструкції</label>
+            <input type="text" class="form-control" name="construction_materials" value="{{ chamber.construction_materials }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Системи контролю середовища</label>
+            <textarea class="form-control" name="environmental_controls" rows="2">{{ chamber.environmental_controls }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Обладнання моніторингу</label>
+            <textarea class="form-control" name="monitoring_equipment" rows="2">{{ chamber.monitoring_equipment }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Місткість (Поточна заповненість: {{ chamber.current_occupancy }})</label>
+            <input type="number" class="form-control" name="capacity" value="{{ chamber.capacity }}" min="1" required>
+            <div class="form-text text-danger">Увага: Не можна встановити місткість меншу за поточну кількість об'єктів.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Зберегти Зміни</button>
+    </form>
+</div>
+{% endblock %}

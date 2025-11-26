@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Деталі Камери{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Деталі Камери Утримання</h2>
+        <a href="{{ url_for('inventory.chambers_list') }}" class="btn btn-secondary">← Назад до списку</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">{{ chamber.location }}</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="width: 40%">Тип камери</th>
+                            <td>{{ chamber.chamber_type }}</td>
+                        </tr>
+                        <tr>
+                            <th>Рівень безпеки</th>
+                            <td>
+                                <span class="badge {% if chamber.security_level|int >= 4 %}bg-danger{% elif chamber.security_level|int == 3 %}bg-warning text-dark{% else %}bg-secondary{% endif %}">
+                                    Рівень {{ chamber.security_level }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Статус</th>
+                            <td>
+                                <span class="badge {% if chamber.status == 'Active' %}bg-success{% elif chamber.status == 'Compromised' %}bg-danger{% else %}bg-secondary{% endif %}">
+                                    {{ chamber.status }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Розміри</th>
+                            <td>{{ chamber.size_dimensions }}</td>
+                        </tr>
+                        <tr>
+                            <th>Матеріали</th>
+                            <td>{{ chamber.construction_materials }}</td>
+                        </tr>
+                        <tr>
+                            <th>Заповненість</th>
+                            <td>
+                                {{ chamber.current_occupancy }} / {{ chamber.capacity }}
+                                <div class="progress mt-1" style="height: 10px;">
+                                    <div class="progress-bar {% if (chamber.current_occupancy / chamber.capacity) >= 0.9 %}bg-danger{% elif (chamber.current_occupancy / chamber.capacity) >= 0.5 %}bg-warning{% else %}bg-success{% endif %}" 
+                                         role="progressbar" 
+                                         style="width: {{ (chamber.current_occupancy / chamber.capacity * 100) if chamber.capacity > 0 else 0 }}%;">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <strong>Системи та Обладнання</strong>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <strong>Контроль середовища:</strong><br>
+                        <span class="text-muted">{{ chamber.environmental_controls or 'Не вказано' }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Моніторинг:</strong><br>
+                        <span class="text-muted">{{ chamber.monitoring_equipment or 'Не вказано' }}</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <strong>Об'єкти на утриманні</strong>
+                </div>
+                <div class="card-body p-0">
+                    {% if objects %}
+                        <div class="list-group list-group-flush">
+                            {% for obj in objects %}
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ obj.object_number }}</strong>: {{ obj.object_name }}
+                                    <span class="badge bg-light text-dark border">{{ obj.object_class }}</span>
+                                </div>
+                                <!-- <a href="#" class="btn btn-sm btn-outline-dark">Переглянути</a> -->
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="p-3 text-center text-muted">
+                            Камера порожня.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
