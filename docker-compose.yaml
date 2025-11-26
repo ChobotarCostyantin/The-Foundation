@@ -1,6 +1,17 @@
 version: '3.8'
 
 services:
+  web:  
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo_db:27017/${MONGO_INITDB_DATABASE}?authSource=admin
+      - SECRET_KEY=${SECRET_KEY}
+    depends_on:
+      - mongo_db
+    restart: always
+
   mongo_db:
     image: mongo:latest
     container_name: foundation_mongo
